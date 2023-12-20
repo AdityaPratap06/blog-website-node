@@ -48,3 +48,24 @@ module.exports.getAllPosts = async function
         })
     }
 }
+
+module.exports.getPost = async function
+    getPost(req, res) {
+    try {
+        let link = req.link
+        let post = await postModal.findOne(link)
+        if (post) {
+            res.json(post)
+        }
+        else {
+            return res.json({
+                message: "Not Post Found."
+            })
+        }
+    }
+    catch (err) {
+        res.json({
+            message: err.message
+        })
+    }
+}

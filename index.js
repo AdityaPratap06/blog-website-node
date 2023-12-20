@@ -8,13 +8,6 @@ const port = 3005;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ 'origin': '*' }));
-// app.use((err, req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     res.status(500).send('Something went wrong!');
-//     // next();
-// });
 
 // Routers
 const postRouter = require("./src/Routes/postRoutes");
