@@ -93,7 +93,7 @@ module.exports.getPopularPosts = async function
 
         const startIndex = (page - 1) * limit;
 
-        let posts = await postModal.find().skip(startIndex).limit(limit).select("author category link postedAt title _id");
+        let posts = await postModal.find().skip(startIndex).limit(limit).select("author category intro link postedAt title _id");
 
         if (posts && posts.length > 0) {
             res.json(posts);
