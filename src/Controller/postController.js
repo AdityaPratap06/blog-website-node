@@ -84,3 +84,28 @@ module.exports.getPost = async function
         })
     }
 }
+
+module.exports.getPopularPosts = async function
+    getPopularPosts(req, res) {
+    try {
+        const page = 1;
+        const limit = 4;
+
+        const startIndex = (page - 1) * limit;
+
+        let posts = await postModal.find().skip(startIndex).limit(limit).select("author category link postedAt title _id");
+
+        if (posts && posts.length > 0) {
+            res.json({ posts });
+        } else {
+            res.json({
+                message: "No posts found"
+            });
+        }
+    }
+    catch (err) {
+        res.json({
+            message: err.message
+        })
+    }
+}
