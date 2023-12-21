@@ -22,7 +22,7 @@ module.exports.getAllPosts = async function
         const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
 
-        let posts = await postModal.find().skip(startIndex).limit(limit);
+        let posts = await postModal.find().skip(startIndex).limit(limit).select("author category destination intro link postedAt tags title _id");
 
         if (posts && posts.length > 0) {
             const hasNextPage = endIndex < totalPosts;
@@ -52,16 +52,18 @@ module.exports.getAllPosts = async function
 module.exports.getPost = async function
     getPost(req, res) {
     try {
-        let link = req.link
-        let post = await postModal.findOne(link)
-        if (post) {
-            res.json(post)
+        let link = req.query.link; // Access the 'link' parameter from req.query
+        if (!link) {
+            return res.status(400).json({ message: "Link parameter is missing" });
         }
-        else {
-            return res.json({
-                message: "Not Post Found."
-            })
+
+        let post = await postModal.findOne({ link: link });
+
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
         }
+
+        res.json(post);
     }
     catch (err) {
         res.json({

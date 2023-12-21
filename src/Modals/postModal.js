@@ -20,7 +20,29 @@ const postSchema = mongoose.Schema({
         type: String,
         require: [true, "Title is Required"],
     },
-    posts: [{
+    intro: {
+        heading: {
+            type: String,
+            require: true
+        },
+        description: {
+            type: String,
+            require: true,
+        },
+        url: {
+            type: String,
+            require: true
+        },
+        imageTitle: {
+            type: String,
+            require: true
+        },
+        imageMetaDesc: {
+            type: String,
+            require: true
+        }
+    },
+    details: [{
         heading: {
             type: String,
         },
