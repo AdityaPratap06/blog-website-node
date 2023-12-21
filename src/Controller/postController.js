@@ -22,7 +22,20 @@ module.exports.getAllPosts = async function
         const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
 
-        let posts = await postModal.find().skip(startIndex).limit(limit).select("author category destination intro link postedAt tags title _id");
+        const destinationQuery = req.query.destination || '';
+        const categoryQuery = req.query.category || '';
+        const searchQuery = req.query.search || '';
+        const regex = new RegExp(searchQuery, "i");
+
+        let posts = destinationQuery ?
+            await postModal.find({ 'destination.id': destinationQuery }).skip(startIndex).limit(limit).select("author category destination intro link postedAt tags title _id")
+            : categoryQuery ?
+                await postModal.find({ 'category.id': categoryQuery }).skip(startIndex).limit(limit).select("author category destination intro link postedAt tags title _id")
+                : searchQuery ?
+                    await postModal.find({ title: { $regex: regex } }).skip(startIndex).limit(limit).select("author category destination intro link postedAt tags title _id")
+                    :
+                    await postModal.find().skip(startIndex).limit(limit).select("author category destination intro link postedAt tags title _id");
+
 
         if (posts && posts.length > 0) {
             const hasNextPage = endIndex < totalPosts;
