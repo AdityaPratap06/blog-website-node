@@ -96,7 +96,7 @@ module.exports.getPopularPosts = async function
         let posts = await postModal.find().skip(startIndex).limit(limit).select("author category link postedAt title _id");
 
         if (posts && posts.length > 0) {
-            res.json({ posts });
+            res.json(posts);
         } else {
             res.json({
                 message: "No posts found"
